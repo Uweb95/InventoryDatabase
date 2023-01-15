@@ -1,0 +1,7 @@
+name: InventoryDatabase
+version: '${project.version}'
+main: de.lunarsoftware.inventorydatabase.InventoryDatabase
+api-version: 1.19
+authors: [ Uweb95 ]
+description: Syncs the Player inventory with a mysql database
+website: mc.lunar-software.eu

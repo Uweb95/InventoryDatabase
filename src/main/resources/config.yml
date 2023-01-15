@@ -1,0 +1,17 @@
+# MySQL Database details
+database:
+  host: 127.0.0.1
+  port: 3306
+  # Database name (The database must exist)
+  databaseName: 'minecraft'
+  username: 'minecraft'
+  # Use a strong password!
+  password: 'password'
+
+general:
+  syncInventory: true
+  syncArmor: true
+
+debug:
+  # Inventory sync debug messages.
+  syncMessages: false
