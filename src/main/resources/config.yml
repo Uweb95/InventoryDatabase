@@ -11,6 +11,8 @@ database:
 general:
   syncInventory: true
   syncArmor: true
+  # Time between data saves in minutes. (0 to only sync when connecting/disconnecting)
+  saveInterval: 2
 
 debug:
   # Inventory sync debug messages.

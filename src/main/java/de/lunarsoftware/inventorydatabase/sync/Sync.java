@@ -2,6 +2,7 @@ package de.lunarsoftware.inventorydatabase.sync;
 
 import de.lunarsoftware.inventorydatabase.InventoryDatabase;
 import de.lunarsoftware.inventorydatabase.database.PlayerInventory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -11,7 +12,9 @@ import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Sync {
@@ -20,10 +23,14 @@ public class Sync {
     private final boolean inventorySync;
     private final boolean armorSync;
 
+    private final SyncTask syncTask;
+
     public Sync() {
         enableDebug = InventoryDatabase.getInstance().getConfig().getBoolean("debug.syncMessages", false);
         inventorySync = InventoryDatabase.getInstance().getConfig().getBoolean("general.syncInventory", false);
         armorSync = InventoryDatabase.getInstance().getConfig().getBoolean("general.syncArmor", false);
+
+        syncTask = new SyncTask();
     }
 
     public void loadPlayerInventory(Player player) {
@@ -75,6 +82,22 @@ public class Sync {
         } else {
             InventoryDatabase.logger().warning("Can't save Data from player " + player.getName());
         }
+    }
+
+    public void saveOnlinePlayers() {
+        if (enableDebug) InventoryDatabase.logger().info("Start saving task");
+        List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+
+        if (players.size() == 0) {
+            if (enableDebug) InventoryDatabase.logger().info("No players online to save.");
+            return;
+        }
+
+        for (Player player : players) {
+            if (player.isOnline()) InventoryDatabase.getInstance().getSync().savePlayerInventory(player);
+        }
+
+        if (enableDebug) InventoryDatabase.logger().info("Inventory of " + players.size() + " players saved.");
     }
 
     public void loadData(final Player player) {

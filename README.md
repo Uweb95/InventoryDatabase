@@ -1,7 +1,9 @@
 ## Inventory Database
 
-This plugin syncs players' inventory and armor using a database.
-Currently, the data is only saved when the user disconnects or gets kicked.
+This plugin syncs players' inventory and armor using a database.  
+I wrote the plugin for paper, but it should work on Bukkit/Spigot too.  
+
+Tested minecraft version: 1.19.3
 
 ### Configuration
 
@@ -20,7 +22,9 @@ general:
   # Enable inventory sync
   syncInventory: true
   # Enable armor sync
-  syncArmor: true 
+  syncArmor: true
+  # Time between data saves in minutes. (0 to only sync when connecting/disconnecting)
+  saveInterval: 2
 
 debug:
   # Inventory sync debug messages.
