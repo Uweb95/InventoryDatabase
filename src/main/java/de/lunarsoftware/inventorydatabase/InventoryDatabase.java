@@ -4,6 +4,8 @@ import de.lunarsoftware.inventorydatabase.database.MySQL;
 import de.lunarsoftware.inventorydatabase.events.PlayerJoin;
 import de.lunarsoftware.inventorydatabase.events.PlayerLeave;
 import de.lunarsoftware.inventorydatabase.sync.Sync;
+import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +29,13 @@ public final class InventoryDatabase extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerJoin(), this);
         pluginManager.registerEvents(new PlayerLeave(), this);
+    }
+
+    public void onDisable() {
+        sync.saveOnlinePlayers();
+        Bukkit.getScheduler().cancelTasks(this);
+        HandlerList.unregisterAll(this);
+        database.disconnect();
     }
 
     public static Logger logger() {
